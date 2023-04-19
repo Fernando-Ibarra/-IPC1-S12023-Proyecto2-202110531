@@ -13,6 +13,7 @@ import java.util.LinkedList;
 public class Utils {
     
     public static ListaUsuario myList = new ListaUsuario();
+    public static ListaImagenes myImages = new ListaImagenes();
     public static LinkedList<Categoria> myCategories = new LinkedList<>();
     
 }

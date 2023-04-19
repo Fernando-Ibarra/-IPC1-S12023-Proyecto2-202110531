@@ -4,8 +4,9 @@
  */
 package Vista;
 
-import Modelo.ListaUsuario;
+import Modelo.Categoria;
 import Modelo.Usuario;
+import static Modelo.Utils.myCategories;
 import static Modelo.Utils.myList;
 import javax.swing.JOptionPane;
 
@@ -14,6 +15,8 @@ import javax.swing.JOptionPane;
  * @author fi944
  */
 public class MenuInicial extends javax.swing.JFrame {
+    
+    private String categoriaGeneral = "General";
     
     /**
      * Creates new form MenuInicial
@@ -138,8 +141,8 @@ public class MenuInicial extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void menuBiblioteca(){
-        Biblioteca biblio = new Biblioteca();
+    public void menuBiblioteca(Usuario userB){
+        Biblioteca biblio = new Biblioteca(userB);
         biblio.setVisible(true);
         this.dispose();
     }
@@ -154,21 +157,25 @@ public class MenuInicial extends javax.swing.JFrame {
             if( validated == true){
                 System.out.println("Usuario Encontrado");
                 System.out.println(myList);
-                menuBiblioteca();
+                menuBiblioteca(user);
             } else {
                 JOptionPane.showMessageDialog(null, "USUARIO NO ENCONTRADO");
                 myList.add(user);
-                System.out.println("Usuario Creado");
+                Categoria cate = new Categoria(categoriaGeneral, user);
+                myCategories.add(cate);
+                System.out.println("Usuario Creado con Categoría General");
                 System.out.println(myList);
-                menuBiblioteca();
+                menuBiblioteca(user);
             }
             
         } else {
             System.out.println("Ningun Usuario");
             myList.add(user);
-            System.out.println("Usuario Creado");
-            menuBiblioteca();
+            Categoria cate = new Categoria(categoriaGeneral, user);
+            myCategories.add(cate);
+            System.out.println("Usuario Creado con Categoría General");
             System.out.println(myList);
+            menuBiblioteca(user);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
