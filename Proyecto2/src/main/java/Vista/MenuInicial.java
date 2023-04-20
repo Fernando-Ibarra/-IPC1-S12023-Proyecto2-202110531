@@ -159,7 +159,7 @@ public class MenuInicial extends javax.swing.JFrame {
                 System.out.println(myList);
                 menuBiblioteca(user);
             } else {
-                JOptionPane.showMessageDialog(null, "USUARIO NO ENCONTRADO");
+                JOptionPane.showMessageDialog(null, "USUARIO NO ENCONTRADO, PERO CREADO");
                 myList.add(user);
                 Categoria cate = new Categoria(categoriaGeneral, user);
                 myCategories.add(cate);

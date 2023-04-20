@@ -9,6 +9,7 @@ import Modelo.Imagen;
 import Modelo.ListaImagenes;
 import Modelo.NodoLD;
 import Modelo.Usuario;
+import static Modelo.Utils.indexMostrar;
 import static Modelo.Utils.myCategories;
 import static Modelo.Utils.myImages;
 import java.awt.Image;
@@ -27,6 +28,8 @@ import javax.swing.table.DefaultTableModel;
 public class Biblioteca extends javax.swing.JFrame {
 
     Usuario userB;
+    
+    private int indexEliminar;
 
     /**
      * Creates new form Biblioteca
@@ -54,6 +57,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
         jToggleButton1 = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -82,17 +86,22 @@ public class Biblioteca extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 478, Short.MAX_VALUE)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 308, Short.MAX_VALUE)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)
         );
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton1.setText("<");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButton2.setText(">");
@@ -135,9 +144,14 @@ public class Biblioteca extends javax.swing.JFrame {
         jButton6.setText("Eliminar");
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Fotografía (n/m)");
+        jLabel4.setText("Fotografías");
 
         jButton7.setText("Mostrar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Salir");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -307,8 +321,101 @@ public class Biblioteca extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        System.out.println(myImages.getNext());
+        /*
+            Click -> me muestra imagen siguiente
+        */
+        int row = jTable1.getSelectedRow();
+        String cate = jTable1.getValueAt(row, 0).toString();
+        System.out.println("Categoría a buscar: " + cate);
+        System.out.println("--------------NODO A MOSTRAR--------------");
+        indexMostrar++;
+
+        NodoLD aux = (NodoLD) myImages.get(indexMostrar);
+        System.out.println("NODO: " + aux);
+        
+        String categoria = aux.getImg().getCategoria().getCategoria();
+        System.out.println("CATEGORIA NODO: "+ categoria);
+        
+        while(!cate.equals(categoria)){
+            indexMostrar++;
+            aux = (NodoLD) myImages.get(indexMostrar);
+            System.out.println("NODO: " + aux);
+            
+            categoria = aux.getImg().getCategoria().getCategoria();
+            System.out.println("CATEGORIA NODO: "+ categoria);
+        }
+        
+        if(categoria.equals(cate)){
+            String path = aux.getImg().getPath();
+            System.out.println("PATH: " + path);
+            ImageIcon icon = new ImageIcon(path);
+            Image img2 = icon.getImage().getScaledInstance(jLabel5.getWidth(), jLabel5.getHeight(), Image.SCALE_SMOOTH);
+            jLabel5.setIcon(new ImageIcon(img2));
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        /*
+            Click -> se muestra la imagen 1
+        */
+        int row = jTable1.getSelectedRow();
+        String cate = jTable1.getValueAt(row, 0).toString();
+        System.out.println("Categoría a buscar: " + cate);
+
+        int total = myImages.getTam();
+        for (int j = 1; j < total; j++) {
+            NodoLD aux = myImages.getNodo(cate);
+            System.out.println("NODO AUX ANTES: " + aux);
+            
+            String categoria = aux.getImg().getCategoria().getCategoria();
+            System.out.println("Categoria NODO AUX: "+ categoria);
+            
+            if(categoria.equals(cate)){
+                System.out.println("NODO AUX DESPUES: " + aux);
+                String path = aux.getImg().getPath();
+                System.out.println("PATH: " + path);
+                ImageIcon icon = new ImageIcon(path);
+                Image img2 = icon.getImage().getScaledInstance(jLabel5.getWidth(), jLabel5.getHeight(), Image.SCALE_SMOOTH);
+                jLabel5.setIcon(new ImageIcon(img2));
+                indexMostrar=1;
+            }
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        /*
+            Click -> me muestra imagen anterior
+        */
+        int row = jTable1.getSelectedRow();
+        String cate = jTable1.getValueAt(row, 0).toString();
+        System.out.println("Categoría a buscar: " + cate);
+        
+        System.out.println("--------------NODO A MOSTRAR--------------");
+        indexMostrar--;
+        NodoLD aux = (NodoLD) myImages.get(indexMostrar);
+        System.out.println("NODO: " + aux);
+        
+        String categoria = aux.getImg().getCategoria().getCategoria();
+        System.out.println("Categoria NODO: "+ categoria);
+        
+        while(!cate.equals(categoria)){
+            indexMostrar--;
+            aux = (NodoLD) myImages.get(indexMostrar);
+            System.out.println("NODO: " + aux);
+            
+            categoria = aux.getImg().getCategoria().getCategoria();
+            System.out.println("CATEGORIA NODO: "+ categoria);
+        }
+        
+        if(categoria.equals(cate)){
+            System.out.println("NODO AUX DESPUES: " + aux);
+            String path = aux.getImg().getPath();
+            System.out.println("PATH: " + path);
+            ImageIcon icon = new ImageIcon(path);
+            Image img2 = icon.getImage().getScaledInstance(jLabel5.getWidth(), jLabel5.getHeight(), Image.SCALE_SMOOTH);
+            jLabel5.setIcon(new ImageIcon(img2));
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void AddRowToJtableCategory(LinkedList<Categoria> myCategories, Usuario user) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -384,6 +491,7 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

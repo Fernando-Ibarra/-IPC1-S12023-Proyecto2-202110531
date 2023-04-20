@@ -5,6 +5,7 @@
 package Modelo;
 
 import Librerias.EstructuraDeDatos;
+import static Modelo.Utils.myImages;
 
 /**
  *
@@ -70,7 +71,7 @@ public class ListaImagenes extends EstructuraDeDatos {
         NodoLD v = cabeza.getSiguiente();
         int i = 1;
         while(v != cola ){
-            s+= i + " path: " + v.getImg().getPath() + " usuario: " + v.getImg().getCategoria().getUser().getNombre() + " usuario: " + v.getImg().getCategoria().getCategoria();
+            s+= i + " path: " + v.getImg().getPath() + " usuario: " + v.getImg().getCategoria().getUser().getNombre() + " Categoria: " + v.getImg().getCategoria().getCategoria();
             v = v.getSiguiente();
             if(v != cola){
                 s += ", ";
@@ -158,8 +159,41 @@ public class ListaImagenes extends EstructuraDeDatos {
 
     @Override
     public Object get(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int e = 1;
+        NodoLD aux = cabeza.getSiguiente();
+        
+        while(aux != null){
+            if(e == i){
+                return aux;
+            } else {
+                if(tieneSig(aux) || tienePrev(aux)){
+                    aux = aux.getSiguiente();
+                } else {
+                    return null;
+                }
+            }
+            e++;
+        }
+        return null;
+    }  
+    
+    public NodoLD getNodo(String categoria){
+        NodoLD aux = cabeza.getSiguiente();
+        
+        while(aux != null){
+            String cate = aux.getImg().getCategoria().getCategoria();
+            if(cate.equals(categoria)){
+                return aux;
+            } else {
+                aux = aux.getSiguiente();
+            }
+        }
+        return null;
     }
+    
+    public boolean tienePrev ( NodoLD v) { return v != cabeza ; }
+
+    public boolean tieneSig ( NodoLD v) { return v != cola ; }
 
     @Override
     public void pop() {
