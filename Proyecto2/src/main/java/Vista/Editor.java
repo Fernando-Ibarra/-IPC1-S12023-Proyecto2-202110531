@@ -4,11 +4,34 @@
  */
 package Vista;
 
+import Librerias.BmpHandlerCopy;
+import Librerias.JPEGHandler;
+import Modelo.BMPtoJPEGImage;
+import Modelo.JPEGImageHandlerColors;
+import Modelo.JPEGImageHandlerSepia;
+import Modelo.JPEGtoBMPImage;
+import static Modelo.JPEGtoBMPImage.pathImagesBMP;
+import static Modelo.Utils.converterdBMPtoJPEG;
+import static Modelo.Utils.converterdJPEGtoBMP;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author fi944
  */
 public class Editor extends javax.swing.JFrame {
+
+    private String path;
+    private String nameFile;
+    private String typeFile;
+    private String[] colors = {"Red", "Green", "Blue", "Sepia"};
 
     /**
      * Creates new form Editor
@@ -45,8 +68,18 @@ public class Editor extends javax.swing.JFrame {
         jCheckBox1.setText("JPEG a BMP / BMP a JPEG");
 
         jButton1.setText("Seleccionar Imagen");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Ejecutar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Salir");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -60,7 +93,7 @@ public class Editor extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabel1.setText("Seleccione acciones:");
 
-        jLabel2.setText("url");
+        jLabel2.setText(" ");
 
         jCheckBox3.setText("Rojo Verde Azul Sepia");
 
@@ -143,6 +176,79 @@ public class Editor extends javax.swing.JFrame {
         menuI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser browseImageFile = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("IMAGES", "jpg", "jpeg", "bmp");
+        browseImageFile.addChoosableFileFilter(filter);
+        int showOpenDialogue = browseImageFile.showOpenDialog(null);
+        if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+            File selectedImageFile = browseImageFile.getSelectedFile();
+            path = selectedImageFile.getAbsolutePath();
+            String name = selectedImageFile.getName();
+            String[] arrOfStr = name.split("\\.", 2);
+            nameFile = arrOfStr[0];
+            typeFile = arrOfStr[1];
+            jLabel2.setText(path);
+            System.out.println(typeFile);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (jCheckBox1.isSelected()) {
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
+                }
+                if (typeFile.equals("bmp")) {
+                    converterdBMPtoJPEG(nameFile, path, "jpg", ".jpg");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (jCheckBox2.isSelected()) {
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    copyImg(path, pathImagesBMP);
+                }
+                if (typeFile.equals("bmp")) {
+                    copyImg(path, path);
+                }
+            } catch (Exception e) {
+
+            }
+        }
+
+        if (jCheckBox3.isSelected()) {
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    colorsImg(path, pathImagesBMP);
+                }
+                if (typeFile.equals("bmp")) {
+                    colorsImg(path, path);
+                }
+            } catch (Exception e) {
+
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public void copyImg(String path, String path2) throws Exception {
+        converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
+        BmpHandlerCopy bmpCopy = new BmpHandlerCopy(nameFile, path2, ".bmp");
+        JPEGHandler.runHandler(bmpCopy);
+    }
+    
+    public void colorsImg(String path, String path2) throws Exception{
+        converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
+        JPEGImageHandlerColors colorsImge = new JPEGImageHandlerColors(nameFile, path2, ".bmp");
+        JPEGImageHandlerSepia sepiaImge= new JPEGImageHandlerSepia(nameFile, path2, ".bmp");
+        JPEGHandler.runHandler(sepiaImge);
+        JPEGHandler.runHandler(colorsImge);
+        // JPEGHandler.runHandler(colorsImge);
+    }
 
     /**
      * @param args the command line arguments

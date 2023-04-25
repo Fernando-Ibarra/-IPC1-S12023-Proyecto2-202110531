@@ -26,10 +26,9 @@ import javax.swing.table.DefaultTableModel;
  * @author fi944
  */
 public class Biblioteca extends javax.swing.JFrame {
-
-    Usuario userB;
     
-    private int indexEliminar;
+    private NodoLD nodoAux;
+    Usuario userB;
 
     /**
      * Creates new form Biblioteca
@@ -142,6 +141,11 @@ public class Biblioteca extends javax.swing.JFrame {
         });
 
         jButton6.setText("Eliminar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Fotografías");
@@ -345,6 +349,8 @@ public class Biblioteca extends javax.swing.JFrame {
             System.out.println("CATEGORIA NODO: "+ categoria);
         }
         
+        nodoAux = aux;
+        
         if(categoria.equals(cate)){
             String path = aux.getImg().getPath();
             System.out.println("PATH: " + path);
@@ -407,6 +413,8 @@ public class Biblioteca extends javax.swing.JFrame {
             System.out.println("CATEGORIA NODO: "+ categoria);
         }
         
+        nodoAux = aux;
+        
         if(categoria.equals(cate)){
             System.out.println("NODO AUX DESPUES: " + aux);
             String path = aux.getImg().getPath();
@@ -416,6 +424,52 @@ public class Biblioteca extends javax.swing.JFrame {
             jLabel5.setIcon(new ImageIcon(img2));
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        /*
+            Click -> borrar elemento
+        */
+        NodoLD aux = null;
+        NodoLD aux2 = null;
+        String categoria = "";
+        String categoria2 = "";
+        
+        int row = jTable1.getSelectedRow();
+        String cate = jTable1.getValueAt(row, 0).toString();
+        System.out.println("Categoría a buscar: " + cate);
+        
+        if(myImages.tienePrev(nodoAux)){
+            aux = nodoAux.getAnterior();
+            System.out.println("--------------NODO A MOSTRAR--------------");
+            System.out.println("NODO: " + aux);
+            categoria = aux.getImg().getCategoria().getCategoria();
+            System.out.println("Categoria NODO: "+ categoria);
+        } 
+        
+        if(myImages.tieneSig(nodoAux)) {
+            aux2 = nodoAux.getSiguiente();
+            System.out.println("--------------NODO A MOSTRAR--------------");
+            System.out.println("NODO: " + aux2);
+            categoria2 = aux2.getImg().getCategoria().getCategoria();
+            System.out.println("Categoria NODO: "+ categoria2);
+        }
+        myImages.delete(nodoAux);
+        
+        if(categoria.equals(cate)){
+            String path = aux.getImg().getPath();
+            System.out.println("PATH: " + path);
+            ImageIcon icon = new ImageIcon(path);
+            Image img2 = icon.getImage().getScaledInstance(jLabel5.getWidth(), jLabel5.getHeight(), Image.SCALE_SMOOTH);
+            jLabel5.setIcon(new ImageIcon(img2));
+        } else if(categoria2.equals(cate)){
+            String path = aux2.getImg().getPath();
+            System.out.println("PATH: " + path);
+            ImageIcon icon = new ImageIcon(path);
+            Image img2 = icon.getImage().getScaledInstance(jLabel5.getWidth(), jLabel5.getHeight(), Image.SCALE_SMOOTH);
+            jLabel5.setIcon(new ImageIcon(img2));
+            System.out.println(myImages);
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     public static void AddRowToJtableCategory(LinkedList<Categoria> myCategories, Usuario user) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
