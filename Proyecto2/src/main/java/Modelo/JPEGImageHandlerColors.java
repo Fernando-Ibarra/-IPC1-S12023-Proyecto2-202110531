@@ -58,11 +58,11 @@ public class JPEGImageHandlerColors extends ImageHandler {
             String outRedPathFile = outPath + "Red" + copyname + typePath;
             FileOutputStream ImagenRed = new FileOutputStream(outRedPathFile);
             ImagenRed.write(Datos);
-            
+
             String outGreenPathFile = outPath + "Green" + copyname + typePath;
             FileOutputStream ImagenGreen = new FileOutputStream(outGreenPathFile);
             ImagenGreen.write(Datos);
-            
+
             String outBluePathFile = outPath + "Blue" + copyname + typePath;
             FileOutputStream ImagenBlue = new FileOutputStream(outBluePathFile);
             ImagenBlue.write(Datos);
@@ -76,11 +76,11 @@ public class JPEGImageHandlerColors extends ImageHandler {
                     ImagenRed.write(0);
                     ImagenRed.write(0);
                     ImagenRed.write(red);
-                    
+
                     ImagenGreen.write(0);
                     ImagenGreen.write(green);
                     ImagenGreen.write(0);
-                    
+
                     ImagenBlue.write(blue);
                     ImagenBlue.write(0);
                     ImagenBlue.write(0);

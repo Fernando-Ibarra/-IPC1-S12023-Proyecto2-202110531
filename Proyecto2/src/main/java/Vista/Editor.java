@@ -7,7 +7,9 @@ package Vista;
 import Librerias.BmpHandlerCopy;
 import Librerias.JPEGHandler;
 import Modelo.BMPtoJPEGImage;
+import Modelo.JPEGImageHandlerBN;
 import Modelo.JPEGImageHandlerColors;
+import Modelo.JPEGImageHandlerRotator;
 import Modelo.JPEGImageHandlerSepia;
 import Modelo.JPEGtoBMPImage;
 import static Modelo.JPEGtoBMPImage.pathImagesBMP;
@@ -233,6 +235,30 @@ public class Editor extends javax.swing.JFrame {
 
             }
         }
+        
+        if(jCheckBox4.isSelected()){
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    hvImg(path, pathImagesBMP);
+                }
+                if (typeFile.equals("bmp")) {
+                    hvImg(path, path);
+                }
+            } catch (Exception e) {
+            }
+        }
+        
+        if(jCheckBox5.isSelected()){
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    bwImg(path, pathImagesBMP);
+                }
+                if (typeFile.equals("bmp")) {
+                    bwImg(path, path);
+                }
+            } catch (Exception e) {
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public void copyImg(String path, String path2) throws Exception {
@@ -248,6 +274,18 @@ public class Editor extends javax.swing.JFrame {
         JPEGHandler.runHandler(sepiaImge);
         JPEGHandler.runHandler(colorsImge);
         // JPEGHandler.runHandler(colorsImge);
+    }
+    
+    public void hvImg(String path, String path2) throws Exception{
+        converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
+        JPEGImageHandlerRotator hvImge = new JPEGImageHandlerRotator(nameFile, path2, ".bmp");
+        JPEGHandler.runHandler(hvImge);
+    }
+    
+    public void bwImg(String path, String path2) throws Exception{
+        converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
+        JPEGImageHandlerBN bwImge = new JPEGImageHandlerBN(nameFile, path2, ".bmp");
+        JPEGHandler.runHandler(bwImge);
     }
 
     /**
