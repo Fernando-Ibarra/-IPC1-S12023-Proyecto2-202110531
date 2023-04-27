@@ -24,6 +24,7 @@ public class Utils {
     public static int indexMostrar;
     public static ListaUsuario myList = new ListaUsuario();
     public static ListaImagenes myImages = new ListaImagenes();
+    public static LinkedList<String> myCategoriesAux = new LinkedList<>();
     public static LinkedList<Categoria> myCategories = new LinkedList<>();
     
     public static void converterdJPEGtoBMP(String nameFile, String path, String type, String typePath) throws Exception {

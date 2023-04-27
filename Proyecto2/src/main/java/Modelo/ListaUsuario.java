@@ -106,7 +106,18 @@ public class ListaUsuario extends EstructuraDeDatos {
 
     @Override
     public Object get(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int e = 0;
+        NodoLS aux = primero;
+        
+        while(aux != null){
+            if(e == i){
+                return aux;
+            } else{
+                aux = aux.getSiguiente();
+            }
+            e++;
+        }
+        return null;
     }
 
     @Override

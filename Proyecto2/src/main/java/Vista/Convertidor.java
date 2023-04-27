@@ -4,6 +4,16 @@
  */
 package Vista;
 
+import Modelo.ListaImagenes;
+import Modelo.NodoLD;
+import Modelo.NodoLS;
+import static Modelo.Utils.myCategories;
+import static Modelo.Utils.myCategoriesAux;
+import static Modelo.Utils.myImages;
+import static Modelo.Utils.myList;
+import java.util.LinkedList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author fi944
@@ -15,6 +25,11 @@ public class Convertidor extends javax.swing.JFrame {
      */
     public Convertidor() {
         initComponents();
+        
+        for (int i = 0; i < myList.getSize(); i++) {
+            NodoLS aux = (NodoLS) myList.get(i);
+            jComboBox1.addItem(aux.getUser().getNombre());
+        }
     }
 
     /**
@@ -67,21 +82,35 @@ public class Convertidor extends javax.swing.JFrame {
 
         jLabel1.setText("Usuario");
 
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Categoría");
 
+        jComboBox2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox2MouseClicked(evt);
+            }
+        });
+
         jButton1.setText("Agregar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Cola de Procesamiento");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
-
+                "Categoría"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -99,6 +128,11 @@ public class Convertidor extends javax.swing.JFrame {
         jCheckBox5.setText("Blanco y Negro ");
 
         jButton2.setText("Ejecutar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Cantidad Procesada");
@@ -184,8 +218,7 @@ public class Convertidor extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jCheckBox1)
                             .addComponent(jCheckBox2)
@@ -204,8 +237,9 @@ public class Convertidor extends javax.swing.JFrame {
                         .addGap(23, 23, 23)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -217,6 +251,49 @@ public class Convertidor extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+              
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox2MouseClicked
+        String user = jComboBox1.getSelectedItem().toString();
+        jComboBox2.removeAllItems();
+        for (int i = 0; i < myCategories.size(); i++) {
+            if(myCategories.get(i).getUser().getNombre().equals(user)){
+                jComboBox2.addItem(myCategories.get(i).getCategoria());
+            }
+        }
+    }//GEN-LAST:event_jComboBox2MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String user = jComboBox1.getSelectedItem().toString();
+        String category = jComboBox2.getSelectedItem().toString();
+        myCategoriesAux.add(category);
+        AddRowToJtableCategory(myCategoriesAux);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        for (int i = 0; i < myCategoriesAux.size(); i++) {
+            for (int j = 0; j < myImages.getSize(); j++) {
+                
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public static void AddRowToJtableCategory(LinkedList<String> myCategoriesAux) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        // DELETE
+        if (model.getRowCount() > 0) {
+            for (int i = model.getRowCount() - 1; i > -1; i--) {
+                model.removeRow(i);
+            }
+        }
+
+        // PUT
+        for (int i = 0; i < myCategoriesAux.size(); i++) {
+            model.addRow(new Object[]{myCategoriesAux.get(i)});
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -273,7 +350,7 @@ public class Convertidor extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private static javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
