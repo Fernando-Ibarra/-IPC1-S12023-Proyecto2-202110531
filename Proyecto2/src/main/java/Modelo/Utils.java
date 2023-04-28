@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 public class Utils {
 
     public static String outPath = "C:/Users/fi944/OneDrive/Escritorio/ImagenesProyecto2/";
+    public static String outPath2 = "C:/Users/fi944/OneDrive/Escritorio/ImagenesProyecto2/Convertidor/";
     public static int indexMostrar;
     public static ListaUsuario myList = new ListaUsuario();
     public static ListaImagenes myImages = new ListaImagenes();

@@ -22,7 +22,7 @@ public class JPEGtoBMPImage extends ImageHandler{
     private String filename;
     private String typeFile;
     private String typePath;
-    private BufferedImage bufferedImage;    
+    private BufferedImage bufferedImage;   
 
     public JPEGtoBMPImage(String path, String filename, String typeFile, String typePath) {
         super(filename);

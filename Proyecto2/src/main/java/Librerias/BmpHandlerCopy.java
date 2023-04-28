@@ -5,6 +5,7 @@ package Librerias;
  */
 import static Modelo.Utils.converterdBMPtoJPEG;
 import static Modelo.Utils.outPath;
+import static Modelo.Utils.outPath2;
 import java.io.*;
 import javax.imageio.ImageIO;
 /**
@@ -18,6 +19,8 @@ public class BmpHandlerCopy extends ImageHandler {
     
         private String path;
         private String typePath;
+        private int value;
+        private String outPathFile;
 
 	/**
 	*	Array of bytes that will allocate all header and data for original file
@@ -33,11 +36,12 @@ public class BmpHandlerCopy extends ImageHandler {
 	* 	represented by the given name
 	*	@param imagename Name of the original file being handled by this object
 	**/
-	public BmpHandlerCopy(String imagename, String path, String typePath) {
+	public BmpHandlerCopy(String imagename, String path, String typePath, int value) {
 		super(imagename);
 		this.copyname = "copy-" + imagename;
                 this.path = path;
                 this.typePath = typePath;
+                this.value = value; 
 	}
 
 	/**
@@ -55,7 +59,12 @@ public class BmpHandlerCopy extends ImageHandler {
 	* 	file will be build by the same name preceeded of "copy-"
 	**/	
 	public void generateFiles() throws Exception {
-                String outPathFile = outPath + copyname + typePath;
+                if(value == 1){
+                    outPathFile = outPath + copyname + typePath;
+                } 
+                if(value == 2){
+                    outPathFile = outPath2 + copyname + typePath;
+                }
 		FileOutputStream output = new FileOutputStream(outPathFile);
 		output.write(filebytes);
                 output.close();

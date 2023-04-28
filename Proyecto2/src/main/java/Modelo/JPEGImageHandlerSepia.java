@@ -6,6 +6,8 @@ package Modelo;
 
 import Librerias.ImageHandler;
 import static Modelo.Utils.converterdBMPtoJPEG;
+import static Modelo.Utils.outPath;
+import static Modelo.Utils.outPath2;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,15 +24,16 @@ public class JPEGImageHandlerSepia extends ImageHandler {
     private FileInputStream input;
     private BufferedImage bufferedImage;
     private String filename;
+    private int value;
+    private String outPathFile;
 
-    String outPath = "C:/Users/fi944/OneDrive/Escritorio/ImagenesProyecto2/";
-
-    public JPEGImageHandlerSepia(String filename, String path, String typePath) {
+    public JPEGImageHandlerSepia(String filename, String path, String typePath, int value) {
         super(filename);
         this.copyname = "-" + filename;
         this.filename = filename;
         this.path = path;
         this.typePath = typePath;
+        this.value = value;
     }
 
     @Override
@@ -75,7 +78,13 @@ public class JPEGImageHandlerSepia extends ImageHandler {
             image[i] = (byte) tb;
         }
 
-        String outPathFile = outPath + "Sepia" + copyname + typePath;
+        if (value == 1) {
+            outPathFile = outPath + "Sepia" + copyname + typePath;
+        } 
+        
+        if (value == 2) {
+            outPathFile = outPath2 + "Sepia" + copyname + typePath;
+        }
         FileOutputStream Imagen = new FileOutputStream(outPathFile);
         Imagen.write(Datos);
         Imagen.write(image);

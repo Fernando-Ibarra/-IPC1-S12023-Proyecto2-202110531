@@ -7,6 +7,8 @@ package Vista;
 import Modelo.ListaImagenes;
 import Modelo.NodoLD;
 import Modelo.NodoLS;
+import Modelo.ProcesoHilo;
+import static Modelo.Utils.converterdJPEGtoBMP;
 import static Modelo.Utils.myCategories;
 import static Modelo.Utils.myCategoriesAux;
 import static Modelo.Utils.myImages;
@@ -273,9 +275,14 @@ public class Convertidor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        for (int i = 0; i < myCategoriesAux.size(); i++) {
-            for (int j = 0; j < myImages.getSize(); j++) {
-                
+        for(int i = 0; i < myCategoriesAux.size(); i++) {
+            for (int j = 1; j <= myImages.getSize(); j++) {
+                NodoLD nodoAux = (NodoLD) myImages.get(j);
+                String categoria = nodoAux.getImg().getCategoria().getCategoria();
+                if(myCategoriesAux.get(i).equals(categoria)){
+                    ProcesoHilo miHilo = new ProcesoHilo(nodoAux.getImg().getPath(), jCheckBox1.isSelected(), jCheckBox2.isSelected(), jCheckBox3.isSelected(), jCheckBox4.isSelected(), jCheckBox5.isSelected());
+                    miHilo.start();
+                }
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -294,6 +301,7 @@ public class Convertidor extends javax.swing.JFrame {
             model.addRow(new Object[]{myCategoriesAux.get(i)});
         }
     }
+    
     /**
      * @param args the command line arguments
      */

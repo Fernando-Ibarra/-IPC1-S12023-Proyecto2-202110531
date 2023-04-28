@@ -7,6 +7,7 @@ package Modelo;
 import Librerias.ImageHandler;
 import static Modelo.Utils.converterdBMPtoJPEG;
 import static Modelo.Utils.outPath;
+import static Modelo.Utils.outPath2;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,13 +29,18 @@ public class JPEGImageHandlerColors extends ImageHandler {
     private FileInputStream input;
     private BufferedImage bufferedImage;
     private String filename;
+    private int value;
+    private String outRedPathFile;
+    private String outGreenPathFile;
+    private String outBluePathFile;
 
-    public JPEGImageHandlerColors(String filename, String path, String typePath) {
+    public JPEGImageHandlerColors(String filename, String path, String typePath, int value) {
         super(filename);
         this.copyname = "-" + filename;
         this.filename = filename;
         this.path = path;
         this.typePath = typePath;
+        this.value = value;
     }
 
     @Override
@@ -55,15 +61,22 @@ public class JPEGImageHandlerColors extends ImageHandler {
         System.out.println("Height: " + Height);
 
         try {
-            String outRedPathFile = outPath + "Red" + copyname + typePath;
+            if (value == 1) {
+                outRedPathFile = outPath + "Red" + copyname + typePath;
+                outGreenPathFile = outPath + "Green" + copyname + typePath;
+                outBluePathFile = outPath + "Blue" + copyname + typePath;
+            }
+            if (value == 2) {
+                outRedPathFile = outPath2 + "Red" + copyname + typePath;
+                outGreenPathFile = outPath2 + "Green" + copyname + typePath;
+                outBluePathFile = outPath2 + "Blue" + copyname + typePath;
+            }
             FileOutputStream ImagenRed = new FileOutputStream(outRedPathFile);
             ImagenRed.write(Datos);
 
-            String outGreenPathFile = outPath + "Green" + copyname + typePath;
             FileOutputStream ImagenGreen = new FileOutputStream(outGreenPathFile);
             ImagenGreen.write(Datos);
 
-            String outBluePathFile = outPath + "Blue" + copyname + typePath;
             FileOutputStream ImagenBlue = new FileOutputStream(outBluePathFile);
             ImagenBlue.write(Datos);
 

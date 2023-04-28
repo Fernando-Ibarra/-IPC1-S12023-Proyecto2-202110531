@@ -188,6 +188,7 @@ public class Editor extends javax.swing.JFrame {
             File selectedImageFile = browseImageFile.getSelectedFile();
             path = selectedImageFile.getAbsolutePath();
             String name = selectedImageFile.getName();
+            String name2 = path.substring(44);
             String[] arrOfStr = name.split("\\.", 2);
             nameFile = arrOfStr[0];
             typeFile = arrOfStr[1];
@@ -218,8 +219,8 @@ public class Editor extends javax.swing.JFrame {
                 if (typeFile.equals("bmp")) {
                     copyImg(path, path);
                 }
-            } catch (Exception e) {
-
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -231,8 +232,8 @@ public class Editor extends javax.swing.JFrame {
                 if (typeFile.equals("bmp")) {
                     colorsImg(path, path);
                 }
-            } catch (Exception e) {
-
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -244,7 +245,8 @@ public class Editor extends javax.swing.JFrame {
                 if (typeFile.equals("bmp")) {
                     hvImg(path, path);
                 }
-            } catch (Exception e) {
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -256,35 +258,35 @@ public class Editor extends javax.swing.JFrame {
                 if (typeFile.equals("bmp")) {
                     bwImg(path, path);
                 }
-            } catch (Exception e) {
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public void copyImg(String path, String path2) throws Exception {
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
-        BmpHandlerCopy bmpCopy = new BmpHandlerCopy(nameFile, path2, ".bmp");
+        BmpHandlerCopy bmpCopy = new BmpHandlerCopy(nameFile, path2, ".bmp", 1);
         JPEGHandler.runHandler(bmpCopy);
     }
     
     public void colorsImg(String path, String path2) throws Exception{
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
-        JPEGImageHandlerColors colorsImge = new JPEGImageHandlerColors(nameFile, path2, ".bmp");
-        JPEGImageHandlerSepia sepiaImge= new JPEGImageHandlerSepia(nameFile, path2, ".bmp");
+        JPEGImageHandlerColors colorsImge = new JPEGImageHandlerColors(nameFile, path2, ".bmp", 1);
+        JPEGImageHandlerSepia sepiaImge= new JPEGImageHandlerSepia(nameFile, path2, ".bmp", 1);
         JPEGHandler.runHandler(sepiaImge);
         JPEGHandler.runHandler(colorsImge);
-        // JPEGHandler.runHandler(colorsImge);
     }
     
     public void hvImg(String path, String path2) throws Exception{
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
-        JPEGImageHandlerRotator hvImge = new JPEGImageHandlerRotator(nameFile, path2, ".bmp");
+        JPEGImageHandlerRotator hvImge = new JPEGImageHandlerRotator(nameFile, path2, ".bmp", 1);
         JPEGHandler.runHandler(hvImge);
     }
     
     public void bwImg(String path, String path2) throws Exception{
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
-        JPEGImageHandlerBN bwImge = new JPEGImageHandlerBN(nameFile, path2, ".bmp");
+        JPEGImageHandlerBN bwImge = new JPEGImageHandlerBN(nameFile, path2, ".bmp", 1);
         JPEGHandler.runHandler(bwImge);
     }
 

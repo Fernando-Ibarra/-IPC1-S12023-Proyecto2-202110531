@@ -6,6 +6,8 @@ package Modelo;
 
 import Librerias.ImageHandler;
 import static Modelo.Utils.converterdBMPtoJPEG;
+import static Modelo.Utils.outPath;
+import static Modelo.Utils.outPath2;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,15 +24,16 @@ public class JPEGImageHandlerBN extends ImageHandler {
     private FileInputStream input;
     private BufferedImage bufferedImage;
     private String filename;
+    private String outPathFile;
+    private int value;
 
-    String outPath = "C:/Users/fi944/OneDrive/Escritorio/ImagenesProyecto2/";
-
-    public JPEGImageHandlerBN(String filename, String path, String typePath) {
+    public JPEGImageHandlerBN(String filename, String path, String typePath, int value) {
         super(filename);
         this.copyname = "-" + filename;
         this.filename = filename;
         this.path = path;
         this.typePath = typePath;
+        this.value = value;
     }
 
     @Override
@@ -47,7 +50,12 @@ public class JPEGImageHandlerBN extends ImageHandler {
         int Height = ((Datos[25] & 0xff) << 24) | ((Datos[24] & 0xff) << 16) | ((Datos[23] & 0xff) << 8) | (Datos[22] & 0xff);
         int padding = (4 - (Width * 3) % 4) % 4;
 
-        String outPathFile = outPath + "BlancoNegro" + copyname + typePath;
+        if (value == 1) {
+            outPathFile = outPath + "BlancoNegro" + copyname + typePath;
+        }
+        if (value == 2) {
+            outPathFile = outPath2 + "BlancoNegro" + copyname + typePath;
+        }
         FileOutputStream Imagen = new FileOutputStream(outPathFile);
         Imagen.write(Datos);
 
@@ -74,7 +82,7 @@ public class JPEGImageHandlerBN extends ImageHandler {
                 Imagen.write(0);
             }
         }
-        
+
         input.close();
         Imagen.close();
         converterdBMPtoJPEG(filename, outPathFile, "jpg", ".jpg");

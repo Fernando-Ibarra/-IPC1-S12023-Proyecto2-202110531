@@ -7,6 +7,7 @@ package Modelo;
 import Librerias.ImageHandler;
 import static Modelo.Utils.converterdBMPtoJPEG;
 import static Modelo.Utils.outPath;
+import static Modelo.Utils.outPath2;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -23,15 +24,17 @@ public class JPEGImageHandlerRotator extends ImageHandler {
     private FileInputStream input;
     private BufferedImage bufferedImage;
     private String filename;
+    private int value;
+    private String outHorizontalPathFile;
+    private String outVerticalPathFile;
 
-    String outPath = "C:/Users/fi944/OneDrive/Escritorio/ImagenesProyecto2/";
-
-    public JPEGImageHandlerRotator(String filename, String path, String typePath) {
+    public JPEGImageHandlerRotator(String filename, String path, String typePath, int value) {
         super(filename);
         this.copyname = "-" + filename;
         this.filename = filename;
         this.path = path;
         this.typePath = typePath;
+        this.value = value;
     }
 
     @Override
@@ -75,15 +78,22 @@ public class JPEGImageHandlerRotator extends ImageHandler {
             }
         }
 
-        String outHorizontalPathFile = outPath + "HRotation" + copyname + typePath;
+        if (value == 1) {
+            outHorizontalPathFile = outPath + "HRotation" + copyname + typePath;
+            outVerticalPathFile = outPath + "VRotation" + copyname + typePath;
+        }
+        if (value == 2) {
+            outHorizontalPathFile = outPath2 + "HRotation" + copyname + typePath;
+            outVerticalPathFile = outPath2 + "VRotation" + copyname + typePath;
+        }
+
         FileOutputStream Imagen = new FileOutputStream(outHorizontalPathFile);
 
-        String outVerticalPathFile = outPath + "VRotation" + copyname + typePath;
         FileOutputStream Imagen2 = new FileOutputStream(outVerticalPathFile);
-        
+
         Imagen.write(Datos);
         Imagen2.write(Datos);
-        
+
         Imagen.write(rotatedImageData);
         Imagen2.write(rotatedImageData2);
 
