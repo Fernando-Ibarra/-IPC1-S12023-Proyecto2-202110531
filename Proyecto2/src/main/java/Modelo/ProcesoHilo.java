@@ -9,6 +9,7 @@ import Librerias.JPEGHandler;
 import static Modelo.JPEGtoBMPImage.pathImagesBMP;
 import static Modelo.Utils.converterdBMPtoJPEG;
 import static Modelo.Utils.converterdJPEGtoBMP;
+import static Modelo.Utils.thread;
 import Vista.Editor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,6 @@ public class ProcesoHilo extends Thread {
     private String path;
     private String nameFile;
     private String typeFile;
-    private String name;
     private boolean op1 = false;
     private boolean op2 = false;
     private boolean op3 = false;
@@ -62,10 +62,10 @@ public class ProcesoHilo extends Thread {
                 Thread.sleep(10);
                 try {
                     if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
-                        colorsImg(path, pathImagesBMP);
+                        colorsImg(path, pathImagesBMP, nameFile);
                     }
                     if (typeFile.equals("bmp")) {
-                        colorsImg(path, path);
+                        colorsImg(path, path, nameFile);
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,10 +75,10 @@ public class ProcesoHilo extends Thread {
                 Thread.sleep(10);
                 try {
                     if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
-                        hvImg(path, pathImagesBMP);
+                        hvImg(path, pathImagesBMP, nameFile);
                     }
                     if (typeFile.equals("bmp")) {
-                        hvImg(path, path);
+                        hvImg(path, path, nameFile);
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,10 +88,10 @@ public class ProcesoHilo extends Thread {
                 Thread.sleep(10);
                 try {
                     if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
-                        bwImg(path, pathImagesBMP);
+                        bwImg(path, pathImagesBMP, nameFile);
                     }
                     if (typeFile.equals("bmp")) {
-                        bwImg(path, path);
+                        bwImg(path, path, nameFile);
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
@@ -101,10 +101,10 @@ public class ProcesoHilo extends Thread {
                 Thread.sleep(1000);
                 try {
                     if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
-                        copyImg(path, pathImagesBMP);
+                        copyImg(path, pathImagesBMP, nameFile);
                     }
                     if (typeFile.equals("bmp")) {
-                        copyImg(path, path);
+                        copyImg(path, path, nameFile);
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,13 +116,13 @@ public class ProcesoHilo extends Thread {
 
     }
 
-    public void copyImg(String path, String path2) throws Exception {
+    public void copyImg(String path, String path2, String nameFile) throws Exception {
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
         BmpHandlerCopy bmpCopy = new BmpHandlerCopy(nameFile, path2, ".bmp", 2);
         JPEGHandler.runHandler(bmpCopy);
     }
 
-    public void colorsImg(String path, String path2) throws Exception {
+    public void colorsImg(String path, String path2, String nameFile) throws Exception {
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
         JPEGImageHandlerColors colorsImge = new JPEGImageHandlerColors(nameFile, path2, ".bmp", 2);
         JPEGImageHandlerSepia sepiaImge = new JPEGImageHandlerSepia(nameFile, path2, ".bmp", 2);
@@ -130,13 +130,13 @@ public class ProcesoHilo extends Thread {
         JPEGHandler.runHandler(colorsImge);
     }
 
-    public void hvImg(String path, String path2) throws Exception {
+    public void hvImg(String path, String path2, String nameFile) throws Exception {
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
         JPEGImageHandlerRotator hvImge = new JPEGImageHandlerRotator(nameFile, path2, ".bmp", 2);
         JPEGHandler.runHandler(hvImge);
     }
 
-    public void bwImg(String path, String path2) throws Exception {
+    public void bwImg(String path, String path2, String nameFile) throws Exception {
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
         JPEGImageHandlerBN bwImge = new JPEGImageHandlerBN(nameFile, path2, ".bmp", 2);
         JPEGHandler.runHandler(bwImge);

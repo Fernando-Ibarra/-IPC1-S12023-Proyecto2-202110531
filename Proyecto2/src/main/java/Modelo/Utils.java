@@ -4,11 +4,8 @@
  */
 package Modelo;
 
-import Librerias.BmpHandlerCopy;
 import Librerias.JPEGHandler;
-import static Modelo.JPEGtoBMPImage.pathImagesBMP;
 import Vista.Editor;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -19,10 +16,12 @@ import java.util.logging.Logger;
  * @author fi944
  */
 public class Utils {
-
+    
     public static String outPath = "C:/Users/fi944/OneDrive/Escritorio/ImagenesProyecto2/";
     public static String outPath2 = "C:/Users/fi944/OneDrive/Escritorio/ImagenesProyecto2/Convertidor/";
     public static int indexMostrar;
+    public static int thread = 0;
+    public static int finishedThread = 0;
     public static ListaUsuario myList = new ListaUsuario();
     public static ListaImagenes myImages = new ListaImagenes();
     public static LinkedList<String> myCategoriesAux = new LinkedList<>();

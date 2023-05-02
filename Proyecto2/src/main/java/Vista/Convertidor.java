@@ -4,15 +4,16 @@
  */
 package Vista;
 
-import Modelo.ListaImagenes;
+
 import Modelo.NodoLD;
 import Modelo.NodoLS;
 import Modelo.ProcesoHilo;
-import static Modelo.Utils.converterdJPEGtoBMP;
+import static Modelo.Utils.finishedThread;
 import static Modelo.Utils.myCategories;
 import static Modelo.Utils.myCategoriesAux;
 import static Modelo.Utils.myImages;
 import static Modelo.Utils.myList;
+import static Modelo.Utils.thread;
 import java.util.LinkedList;
 import javax.swing.table.DefaultTableModel;
 
@@ -32,6 +33,8 @@ public class Convertidor extends javax.swing.JFrame {
             NodoLS aux = (NodoLS) myList.get(i);
             jComboBox1.addItem(aux.getUser().getNombre());
         }
+        jProgressBar1.setValue(0);
+        jProgressBar1.setStringPainted(true);
     }
 
     /**
@@ -45,6 +48,8 @@ public class Convertidor extends javax.swing.JFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -63,7 +68,7 @@ public class Convertidor extends javax.swing.JFrame {
         jProgressBar1 = new javax.swing.JProgressBar();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        consolaConvertidor = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
 
@@ -79,6 +84,10 @@ public class Convertidor extends javax.swing.JFrame {
             }
         ));
         jScrollPane2.setViewportView(jTable2);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane4.setViewportView(jTextArea1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -136,12 +145,14 @@ public class Convertidor extends javax.swing.JFrame {
             }
         });
 
+        jProgressBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Cantidad Procesada");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        consolaConvertidor.setColumns(20);
+        consolaConvertidor.setRows(5);
+        jScrollPane3.setViewportView(consolaConvertidor);
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Consola de Ejecución");
@@ -282,7 +293,18 @@ public class Convertidor extends javax.swing.JFrame {
                 if(myCategoriesAux.get(i).equals(categoria)){
                     ProcesoHilo miHilo = new ProcesoHilo(nodoAux.getImg().getPath(), jCheckBox1.isSelected(), jCheckBox2.isSelected(), jCheckBox3.isSelected(), jCheckBox4.isSelected(), jCheckBox5.isSelected());
                     miHilo.start();
+                    if(miHilo.isAlive()){
+                        thread +=1;
+                    }
+                    jProgressBar1.setMaximum(thread);
+                    while(!miHilo.isAlive()){
+                        if(!miHilo.isAlive()){
+                            finishedThread +=1;
+                            jProgressBar1.setValue(finishedThread);
+                        }
+                    }
                 }
+                
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -338,6 +360,7 @@ public class Convertidor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JTextArea consolaConvertidor;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -358,6 +381,7 @@ public class Convertidor extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private static javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
