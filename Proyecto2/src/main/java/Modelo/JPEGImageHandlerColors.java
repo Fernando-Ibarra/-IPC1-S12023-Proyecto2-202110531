@@ -9,13 +9,9 @@ import static Modelo.Utils.converterdBMPtoJPEG;
 import static Modelo.Utils.outPath;
 import static Modelo.Utils.outPath2;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import javax.imageio.ImageIO;
+
 
 /**
  *
@@ -24,12 +20,12 @@ import javax.imageio.ImageIO;
 public class JPEGImageHandlerColors extends ImageHandler {
 
     protected String copyname;
-    private String path;
-    private String typePath;
+    private final String path;
+    private final String typePath;
     private FileInputStream input;
     private BufferedImage bufferedImage;
-    private String filename;
-    private int value;
+    private final String filename;
+    private final int value;
     private String outRedPathFile;
     private String outGreenPathFile;
     private String outBluePathFile;

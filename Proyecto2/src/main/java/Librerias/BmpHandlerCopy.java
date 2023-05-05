@@ -7,7 +7,6 @@ import static Modelo.Utils.converterdBMPtoJPEG;
 import static Modelo.Utils.outPath;
 import static Modelo.Utils.outPath2;
 import java.io.*;
-import javax.imageio.ImageIO;
 /**
 *	BmpHandlerCopy class es una subclase de ImageHandler. A BmpHandlerCopy object 
 * 	lets us handle an original bmp file by being able of making an exact copy of it.
@@ -17,9 +16,9 @@ import javax.imageio.ImageIO;
 **/
 public class BmpHandlerCopy extends ImageHandler {
     
-        private String path;
-        private String typePath;
-        private int value;
+        private final String path;
+        private final String typePath;
+        private final int value;
         private String outPathFile;
 
 	/**

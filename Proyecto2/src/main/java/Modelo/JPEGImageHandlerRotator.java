@@ -19,12 +19,12 @@ import java.io.FileOutputStream;
 public class JPEGImageHandlerRotator extends ImageHandler {
 
     protected String copyname;
-    private String path;
-    private String typePath;
+    private final String path;
+    private final String typePath;
     private FileInputStream input;
     private BufferedImage bufferedImage;
-    private String filename;
-    private int value;
+    private final String filename;
+    private final int value;
     private String outHorizontalPathFile;
     private String outVerticalPathFile;
 

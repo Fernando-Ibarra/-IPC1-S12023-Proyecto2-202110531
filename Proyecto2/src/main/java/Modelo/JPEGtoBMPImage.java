@@ -18,10 +18,10 @@ import javax.imageio.ImageIO;
 public class JPEGtoBMPImage extends ImageHandler{
     
     public static String pathImagesBMP;
-    private String path;
-    private String filename;
-    private String typeFile;
-    private String typePath;
+    private final String path;
+    private final String filename;
+    private final String typeFile;
+    private final String typePath;
     private BufferedImage bufferedImage;   
 
     public JPEGtoBMPImage(String path, String filename, String typeFile, String typePath) {

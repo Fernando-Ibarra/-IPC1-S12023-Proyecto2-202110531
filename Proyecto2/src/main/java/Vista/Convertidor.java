@@ -295,8 +295,6 @@ public class Convertidor extends javax.swing.JFrame {
         countMaxValue(myCategoriesAux, myImages);
         jProgressBar1.setMaximum(thread);
         System.out.println("HILOS: " + thread);
-
-        
         try {
             convertImg(myCategoriesAux, myImages);
         } catch (InterruptedException ex) {

@@ -8,6 +8,7 @@ import Librerias.ImageHandler;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
@@ -16,10 +17,10 @@ import javax.imageio.ImageIO;
  */
 public class BMPtoJPEGImage extends ImageHandler{
     
-    private String path;
-    private String filename;
-    private String typeFile;
-    private String typePath;
+    private final String path;
+    private final String filename;
+    private final String typeFile;
+    private final String typePath;
     private BufferedImage bufferedImage;
     
     String outPath = "C:/Users/fi944/OneDrive/Escritorio/ImagenesProyecto2/";
@@ -46,7 +47,7 @@ public class BMPtoJPEGImage extends ImageHandler{
             FileOutputStream output = new FileOutputStream(outFile);
             ImageIO.write(bufferedImage, typeFile, output);
             output.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error: " + e);
         }
     }

@@ -5,7 +5,6 @@
 package Modelo;
 
 import Librerias.EstructuraDeDatos;
-import static Modelo.Utils.myImages;
 
 /**
  *
