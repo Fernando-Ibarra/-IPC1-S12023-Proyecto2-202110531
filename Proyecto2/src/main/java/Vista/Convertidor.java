@@ -4,7 +4,7 @@
  */
 package Vista;
 
-
+import Modelo.ListaImagenes;
 import Modelo.NodoLD;
 import Modelo.NodoLS;
 import Modelo.ProcesoHilo;
@@ -15,6 +15,8 @@ import static Modelo.Utils.myImages;
 import static Modelo.Utils.myList;
 import static Modelo.Utils.thread;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,12 +30,15 @@ public class Convertidor extends javax.swing.JFrame {
      */
     public Convertidor() {
         initComponents();
-        
+        finishedThread = 0;
         for (int i = 0; i < myList.getSize(); i++) {
             NodoLS aux = (NodoLS) myList.get(i);
             jComboBox1.addItem(aux.getUser().getNombre());
         }
-        jProgressBar1.setValue(0);
+        for (int i = 0; i < myCategoriesAux.size(); i++) {
+            myCategoriesAux.remove(i);
+        }
+        jProgressBar1.setValue(finishedThread);
         jProgressBar1.setStringPainted(true);
     }
 
@@ -145,6 +150,7 @@ public class Convertidor extends javax.swing.JFrame {
             }
         });
 
+        jProgressBar1.setMaximum(10);
         jProgressBar1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -265,14 +271,14 @@ public class Convertidor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-              
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox2MouseClicked
         String user = jComboBox1.getSelectedItem().toString();
         jComboBox2.removeAllItems();
         for (int i = 0; i < myCategories.size(); i++) {
-            if(myCategories.get(i).getUser().getNombre().equals(user)){
+            if (myCategories.get(i).getUser().getNombre().equals(user)) {
                 jComboBox2.addItem(myCategories.get(i).getCategoria());
             }
         }
@@ -286,28 +292,46 @@ public class Convertidor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        for(int i = 0; i < myCategoriesAux.size(); i++) {
+        countMaxValue(myCategoriesAux, myImages);
+        jProgressBar1.setMaximum(thread);
+        System.out.println("HILOS: " + thread);
+
+        
+        try {
+            convertImg(myCategoriesAux, myImages);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Convertidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public synchronized void convertImg(LinkedList<String> myCategoriesAux, ListaImagenes myImages) throws InterruptedException {
+        for (int i = 0; i < myCategoriesAux.size(); i++) {
             for (int j = 1; j <= myImages.getSize(); j++) {
                 NodoLD nodoAux = (NodoLD) myImages.get(j);
                 String categoria = nodoAux.getImg().getCategoria().getCategoria();
-                if(myCategoriesAux.get(i).equals(categoria)){
+                if (myCategoriesAux.get(i).equals(categoria)) {
                     ProcesoHilo miHilo = new ProcesoHilo(nodoAux.getImg().getPath(), jCheckBox1.isSelected(), jCheckBox2.isSelected(), jCheckBox3.isSelected(), jCheckBox4.isSelected(), jCheckBox5.isSelected());
                     miHilo.start();
-                    if(miHilo.isAlive()){
-                        thread +=1;
-                    }
-                    jProgressBar1.setMaximum(thread);
-                    while(!miHilo.isAlive()){
-                        if(!miHilo.isAlive()){
-                            finishedThread +=1;
-                            jProgressBar1.setValue(finishedThread);
-                        }
-                    }
+                    miHilo.join();
+                    finishedThread++;
+                    jProgressBar1.setValue(finishedThread);
+                    System.out.println("HILOS TERMINADOS: " + finishedThread);
                 }
-                
             }
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }
+
+    public static void countMaxValue(LinkedList<String> myCategoriesAux, ListaImagenes myImages) {
+        for (int i = 0; i < myCategoriesAux.size(); i++) {
+            for (int j = 1; j <= myImages.getSize(); j++) {
+                NodoLD nodoAux = (NodoLD) myImages.get(j);
+                String categoria = nodoAux.getImg().getCategoria().getCategoria();
+                if (myCategoriesAux.get(i).equals(categoria)) {
+                    thread += 1;
+                }
+            }
+        }
+    }
 
     public static void AddRowToJtableCategory(LinkedList<String> myCategoriesAux) {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -323,7 +347,7 @@ public class Convertidor extends javax.swing.JFrame {
             model.addRow(new Object[]{myCategoriesAux.get(i)});
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */

@@ -9,7 +9,6 @@ import Librerias.JPEGHandler;
 import static Modelo.JPEGtoBMPImage.pathImagesBMP;
 import static Modelo.Utils.converterdBMPtoJPEG;
 import static Modelo.Utils.converterdJPEGtoBMP;
-import static Modelo.Utils.thread;
 import Vista.Editor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,9 +19,9 @@ import java.util.logging.Logger;
  */
 public class ProcesoHilo extends Thread {
 
-    private String path;
-    private String nameFile;
-    private String typeFile;
+    private final String path;
+    private final String nameFile;
+    private final String typeFile;
     private boolean op1 = false;
     private boolean op2 = false;
     private boolean op3 = false;
@@ -42,78 +41,71 @@ public class ProcesoHilo extends Thread {
         this.op5 = op5;
     }
 
-    public void run() {
-        try {
-            Thread.sleep(500);
-            if (op1) {
-                Thread.sleep(10);
-                try {
-                    if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
-                        converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
-                    }
-                    if (typeFile.equals("bmp")) {
-                        converterdBMPtoJPEG(nameFile, path, "jpg", ".jpg");
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+    /**
+     *
+     */
+    @Override
+    public synchronized void run() {
+        if (op1) {
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
                 }
-            }
-            if (op3) {
-                Thread.sleep(10);
-                try {
-                    if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
-                        colorsImg(path, pathImagesBMP, nameFile);
-                    }
-                    if (typeFile.equals("bmp")) {
-                        colorsImg(path, path, nameFile);
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+                if (typeFile.equals("bmp")) {
+                    converterdBMPtoJPEG(nameFile, path, "jpg", ".jpg");
                 }
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (op4) {
-                Thread.sleep(10);
-                try {
-                    if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
-                        hvImg(path, pathImagesBMP, nameFile);
-                    }
-                    if (typeFile.equals("bmp")) {
-                        hvImg(path, path, nameFile);
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (op5) {
-                Thread.sleep(10);
-                try {
-                    if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
-                        bwImg(path, pathImagesBMP, nameFile);
-                    }
-                    if (typeFile.equals("bmp")) {
-                        bwImg(path, path, nameFile);
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            if (op2) {
-                Thread.sleep(1000);
-                try {
-                    if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
-                        copyImg(path, pathImagesBMP, nameFile);
-                    }
-                    if (typeFile.equals("bmp")) {
-                        copyImg(path, path, nameFile);
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ProcesoHilo.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        if (op3) {
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    colorsImg(path, pathImagesBMP, nameFile);
+                }
+                if (typeFile.equals("bmp")) {
+                    colorsImg(path, path, nameFile);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (op4) {
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    hvImg(path, pathImagesBMP, nameFile);
+                }
+                if (typeFile.equals("bmp")) {
+                    hvImg(path, path, nameFile);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (op5) {
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    bwImg(path, pathImagesBMP, nameFile);
+                }
+                if (typeFile.equals("bmp")) {
+                    bwImg(path, path, nameFile);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (op2) {
+            try {
+                if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
+                    copyImg(path, pathImagesBMP, nameFile);
+                }
+                if (typeFile.equals("bmp")) {
+                    copyImg(path, path, nameFile);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void copyImg(String path, String path2, String nameFile) throws Exception {

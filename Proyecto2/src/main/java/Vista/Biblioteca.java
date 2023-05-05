@@ -307,6 +307,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         JFileChooser browseImageFile = new JFileChooser();
+        browseImageFile.setMultiSelectionEnabled(true);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("IMAGES", "jpg", "jpeg");
         browseImageFile.addChoosableFileFilter(filter);
         int showOpenDialogue = browseImageFile.showOpenDialog(null);

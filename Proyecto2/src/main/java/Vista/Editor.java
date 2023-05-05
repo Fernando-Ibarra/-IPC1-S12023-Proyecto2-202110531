@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -180,11 +181,12 @@ public class Editor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser browseImageFile = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("IMAGES", "jpg", "jpeg", "bmp");
-        browseImageFile.addChoosableFileFilter(filter);
-        int showOpenDialogue = browseImageFile.showOpenDialog(null);
-        if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+        try {
+            JFileChooser browseImageFile = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("IMAGES", "jpg", "jpeg", "bmp");
+            browseImageFile.addChoosableFileFilter(filter);
+            int showOpenDialogue = browseImageFile.showOpenDialog(null);
+            if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
             File selectedImageFile = browseImageFile.getSelectedFile();
             path = selectedImageFile.getAbsolutePath();
             String name = selectedImageFile.getName();
@@ -194,6 +196,9 @@ public class Editor extends javax.swing.JFrame {
             typeFile = arrOfStr[1];
             jLabel2.setText(path);
             System.out.println(typeFile);
+        }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "IMAGEN NO SELECCIONADA");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -259,7 +264,7 @@ public class Editor extends javax.swing.JFrame {
                     bwImg(path, path);
                 }
             } catch (Exception ex) {
-                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "IMAGEN NO SELECCIONADA");
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
