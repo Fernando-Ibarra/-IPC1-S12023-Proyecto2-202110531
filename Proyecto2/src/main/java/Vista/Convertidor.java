@@ -257,7 +257,7 @@ public class Convertidor extends javax.swing.JFrame {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
 
@@ -310,10 +310,11 @@ public class Convertidor extends javax.swing.JFrame {
                 if (myCategoriesAux.get(i).equals(categoria)) {
                     ProcesoHilo miHilo = new ProcesoHilo(nodoAux.getImg().getPath(), jCheckBox1.isSelected(), jCheckBox2.isSelected(), jCheckBox3.isSelected(), jCheckBox4.isSelected(), jCheckBox5.isSelected());
                     miHilo.start();
-                    miHilo.join();
                     finishedThread++;
                     jProgressBar1.setValue(finishedThread);
+                    jProgressBar1.validate();
                     System.out.println("HILOS TERMINADOS: " + finishedThread);
+                    miHilo.join();
                 }
             }
         }

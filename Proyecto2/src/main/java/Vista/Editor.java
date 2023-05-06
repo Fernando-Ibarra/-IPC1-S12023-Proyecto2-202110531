@@ -181,12 +181,11 @@ public class Editor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            JFileChooser browseImageFile = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("IMAGES", "jpg", "jpeg", "bmp");
-            browseImageFile.addChoosableFileFilter(filter);
-            int showOpenDialogue = browseImageFile.showOpenDialog(null);
-            if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
+        JFileChooser browseImageFile = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("IMAGES", "jpg", "jpeg", "bmp");
+        browseImageFile.addChoosableFileFilter(filter);
+        int showOpenDialogue = browseImageFile.showOpenDialog(null);
+        if (showOpenDialogue == JFileChooser.APPROVE_OPTION) {
             File selectedImageFile = browseImageFile.getSelectedFile();
             path = selectedImageFile.getAbsolutePath();
             String name = selectedImageFile.getName();
@@ -196,9 +195,6 @@ public class Editor extends javax.swing.JFrame {
             typeFile = arrOfStr[1];
             jLabel2.setText(path);
             System.out.println(typeFile);
-        }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "IMAGEN NO SELECCIONADA");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -241,8 +237,8 @@ public class Editor extends javax.swing.JFrame {
                 Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if(jCheckBox4.isSelected()){
+
+        if (jCheckBox4.isSelected()) {
             try {
                 if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
                     hvImg(path, pathImagesBMP);
@@ -254,8 +250,8 @@ public class Editor extends javax.swing.JFrame {
                 Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
-        if(jCheckBox5.isSelected()){
+
+        if (jCheckBox5.isSelected()) {
             try {
                 if (typeFile.equals("jpg") || typeFile.equals("jpeg")) {
                     bwImg(path, pathImagesBMP);
@@ -274,22 +270,22 @@ public class Editor extends javax.swing.JFrame {
         BmpHandlerCopy bmpCopy = new BmpHandlerCopy(nameFile, path2, ".bmp", 1);
         JPEGHandler.runHandler(bmpCopy);
     }
-    
-    public void colorsImg(String path, String path2) throws Exception{
+
+    public void colorsImg(String path, String path2) throws Exception {
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
         JPEGImageHandlerColors colorsImge = new JPEGImageHandlerColors(nameFile, path2, ".bmp", 1);
-        JPEGImageHandlerSepia sepiaImge= new JPEGImageHandlerSepia(nameFile, path2, ".bmp", 1);
+        JPEGImageHandlerSepia sepiaImge = new JPEGImageHandlerSepia(nameFile, path2, ".bmp", 1);
         JPEGHandler.runHandler(sepiaImge);
         JPEGHandler.runHandler(colorsImge);
     }
-    
-    public void hvImg(String path, String path2) throws Exception{
+
+    public void hvImg(String path, String path2) throws Exception {
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
         JPEGImageHandlerRotator hvImge = new JPEGImageHandlerRotator(nameFile, path2, ".bmp", 1);
         JPEGHandler.runHandler(hvImge);
     }
-    
-    public void bwImg(String path, String path2) throws Exception{
+
+    public void bwImg(String path, String path2) throws Exception {
         converterdJPEGtoBMP(nameFile, path, "bmp", ".bmp");
         JPEGImageHandlerBN bwImge = new JPEGImageHandlerBN(nameFile, path2, ".bmp", 1);
         JPEGHandler.runHandler(bwImge);
